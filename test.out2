@@ -1,0 +1,23 @@
+	.data
+	.align 2
+_x:	.space 4
+	.data
+	.align 2
+_y:	.space 4
+	.data
+	.align 2
+_z:	.space 4
+	.text
+	.globl main
+main:
+__start:
+	sw    $ra, 0($sp)	#PUSH
+	subu  $sp, $sp, 4
+	sw    $fp, 0($sp)	#PUSH
+	subu  $sp, $sp, 4
+	addu  $fp, $sp, 16
+	subu  $sp, $sp, 0
+.L0:
+	lw    $ra, -8($fp)
+	move  $t0, $fp
+	lw    $fp, -12($fp)

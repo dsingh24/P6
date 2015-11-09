@@ -1,0 +1,179 @@
+
+int main(){
+
+int answer;
+int a1;
+int a2;
+int a3;
+int a4;
+int a5;
+int a6;
+int a7;
+int a8;
+int a9;
+int a10;
+int a11;
+int a12;
+int a13;
+int a14;
+int a15;
+int b1;
+int b2;
+int b3;
+int b4;
+int b5;
+int b6;
+int b7;
+int b8;
+int b9;
+int b10;
+int b11;
+int b12;
+int b13;
+int b14;
+int b15;
+a1=2;
+a2=6;
+a3=7;
+a4=9;
+a5=2;
+a6=0;
+a7=7;
+a8=6;
+a9=10;
+a10=22;
+a11=13;
+answer=0;
+a12=7;
+a13=53;
+a14=7;
+a15=83;
+
+
+b1=2;
+b2=6;
+b3=7;
+b4=9;
+b5=2;
+b6=0;
+b7=3;
+b8=6;
+b9=10;
+b10=22;
+b11=13;
+b12=7;
+b13=53;
+b14=7;
+b15=7;
+
+if(a1==7){
+a1=0;
+}
+if(a2==7){
+a2=0;
+}
+if(a3==7){
+a3=0;
+}
+if(a4==7){
+a4=0;
+}
+if(a5==7){
+a5=0;
+}
+if(a6==7){
+a6=0;
+}
+if(a7==7){
+a7=0;
+}
+if(a8==7){
+a8=0;
+}
+if(a9==7){
+a9=0;
+}
+if(a10==7){
+a10=0;
+}
+if(a11==7){
+a11=0;
+}
+if(a12==7){
+a12=0;
+}
+if(a13==7){
+a13=0;
+}
+if(a14==7){
+a14=0;
+}
+if(a15==7){
+a15=0;
+}
+
+if(b1==7){
+b1=0;
+}
+if(b2==7){
+b2=0;
+}
+if(b3==7){
+b3=0;
+}
+if(b4==7){
+b4=0;
+}
+if(b5==7){
+b5=0;
+}
+if(b6==7){
+b6=0;
+}
+if(b7==7){
+b7=0;
+}
+if(b8==7){
+b8=0;
+}
+if(b9==7){
+b9=0;
+}
+if(b10==7){
+b10=0;
+}
+if(b11==7){
+b11=0;
+}
+if(b12==7){
+b12=0;
+}
+if(b13==7){
+b13=0;
+}
+if(b14==7){
+b14=0;
+}
+if(b15==7){
+b15=0;
+}
+
+answer=answer + a1 * b1;
+answer=answer + a2 * b2;
+answer=answer + a3 * b3;
+answer=answer + a4 * b4;
+answer=answer + a5 * b5;
+answer=answer + a6 * b6;
+answer=answer + a7 * b7;
+answer=answer + a8 * b8;
+answer=answer + a9 * b9;
+answer=answer + a10 * b10;
+answer=answer + a11 * b11;
+answer=answer + a12 * b12;
+answer=answer + a13 * b13;
+answer=answer + a14 * b14;
+answer=answer + a15 * b15;
+
+
+return answer;
+}

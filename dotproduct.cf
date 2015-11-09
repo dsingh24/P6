@@ -1,0 +1,86 @@
+
+int main(){
+
+int answer;
+int a1;
+int a2;
+int a3;
+int a4;
+int a5;
+int a6;
+int a7;
+int a8;
+int a9;
+int a10;
+int a11;
+int a12;
+int a13;
+int a14;
+int a15;
+int b1;
+int b2;
+int b3;
+int b4;
+int b5;
+int b6;
+int b7;
+int b8;
+int b9;
+int b10;
+int b11;
+int b12;
+int b13;
+int b14;
+int b15;
+answer=1;
+a1=2;
+a2=6;
+a3=4;
+a4=9;
+a5=2;
+a6=0;
+a7=3;
+a8=6;
+a9=10;
+a10=22;
+a11=13;
+a12=52;
+a13=53;
+a14=15;
+a15=83;
+
+b1=2;
+b2=6;
+b3=4;
+b4=9;
+b5=2;
+b6=0;
+b7=3;
+b8=6;
+b9=10;
+b10=22;
+b11=13;
+b12=52;
+b13=53;
+b14=15;
+b15=83;
+
+answer=answer + a1 * b1;
+answer=answer + a2 * b2;
+answer=answer + a3 * b3;
+answer=answer + a4 * b4;
+answer=answer + a5 * b5;
+answer=answer + a6 * b6;
+answer=answer + a7 * b7;
+answer=answer + a8 * b8;
+answer=answer + a9 * b9;
+answer=answer + a10 * b10;
+answer=answer + a11 * b11;
+answer=answer + a12 * b12;
+answer=answer + a13 * b13;
+answer=answer + a14 * b14;
+answer=answer + a15 * b15;
+
+
+return answer;
+}

@@ -1,0 +1,23 @@
+
+int main(){
+
+int answer;
+int initial;
+int i;
+answer=0;
+initial=2837492;
+answer=initial;
+i=168236234;
+
+while (i>0){
+
+answer=(answer +284 ) / (7) * (i+2);
+i=i-1;
+
+
+}
+
+
+
+cout << answer;
+}

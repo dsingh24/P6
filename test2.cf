@@ -1,0 +1,63 @@
+int x;
+int y;
+bool z;
+
+int eleven_times(int k) {
+    int l;
+    l = 11*k;
+    y = 13; //PROBLEM
+    return l;
+}
+
+void main(int x, bool z) {
+    int k;
+    bool l;
+    int m;
+    bool n; //just adding all these offsets
+    int a;
+    int b;
+    bool c;
+    a = 1;
+    b = 5;
+    a++;
+    b--;
+    cout << a; 
+    cout << "\n"; 
+    cout << b;
+    cout << "\n"; 
+    //cin >> a;  //WORKS
+    cout << "Works till here\n";
+    if (a > b) { 
+        //n = a > b; // WORKS
+        //cout << n;
+        //cout << "\n";
+        a = 7;
+        b = a*b / 5; //WORKS
+        cout << eleven_times(eleven_times(a)); //WORKS
+        cout << "\n";
+    } else {
+        //c = !(a > b); //WORKS
+        b = eleven_times(a);
+        cout << "bazinga!"; //WORKS
+        cout << "\n";
+    }
+    
+    x = 6;
+    cout << x;
+    cout << "\n";
+    cout << y;
+    cout << "\n";
+
+    if (b*5 + 1 == x*4 - 3) { //WORKS
+        cout << "woohoo!";
+        cout << "\n";
+    }
+    //while(b < 9 || a <=19) { //WORKS 
+    //    cout << a;
+    //    cout << b;
+    //    b++;
+    //    a++;
+    //}
+}
+
+

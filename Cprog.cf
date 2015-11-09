@@ -1,0 +1,15 @@
+int main(){
+
+   int a;
+   int b;
+int sum;
+
+a=5;
+b=4;
+while(a>0){
+sum=sum+b;
+}
+
+	
+   return sum;
+}

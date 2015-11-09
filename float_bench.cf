@@ -1,0 +1,97 @@
+///*--- pi.c       PROGRAM RANPI
+// *
+ //*   Program to compute PI by probability.
+// *   By Mark Riordan  24-DEC-1986; 
+// *   Original version apparently by Don Shull.
+// *   To be used as a CPU benchmark.
+// *  
+// *  Translated to C from FORTRAN 20 Nov 1993
+// */
+// #include <stdio.h> //DAVID -- problem
+
+//void myadd(float *sum,float *addend); //david change
+
+int myadd(int sum,int addend) { //David change
+
+///*
+//c   Simple adding subroutine thrown in to allow subroutine
+//c   calls/returns to be factored in as part of the benchmark.
+//*/
+      return sum + addend;
+}
+int main(){
+//main(int argc, char *argv[]) {
+   int ztot;
+ 	int yran;
+int ymult;
+int ymod;
+int  x;
+int  y;
+int z;
+int pi;
+int prod;
+   int low;
+int ixran;
+int itot;
+int j;
+int iprod;
+
+//int myadd(float sum, float addend);
+   //   printf("Starting PI...\n");
+      ztot = 0;
+      low = 1;
+      ixran = 1907;
+      yran = 5813;
+      ymult = 1307;
+      ymod = 5471;
+      itot = 1200000;
+	j=itot;
+      while (j>0) {
+
+///*
+//c   X and Y are two uniform random numbers between 0 and 1.
+//c   They are computed using two linear congruential generators.
+//c   A mix of integer and real arithmetic is used to simulate a
+//c   real program.  Magnitudes are kept small to prevent 32-bit
+//c   integer overflow and to allow full precision even with a 23-bit
+//c   mantissa.
+//*/
+
+        iprod = 27611 * ixran;
+       // ixran = iprod - 74383*(long int)(iprod/74383);
+	ixran = iprod - 74383*(iprod/74383);
+        //x = (float)ixran / 74383.0;
+	x = ixran / 74383;
+        prod = ymult * yran;
+        //yran = (prod - ymod*(long int)(prod/ymod));
+	yran = (prod - ymod*(prod/ymod));
+        y = yran / ymod;
+        z = x*x + y*y;
+	//printf("%d",z); David Test
+        ztot = myadd(ztot,z);
+        if ( z <= 1 ) {
+          low = low + 1;
+        }
+	j=j-1;
+      }
+      //printf(" x=%8.5f y=%8.5f low=%7d j=%7d\n",x,y,low,j);
+     // pi = 4.0 * (float)low/(float)itot;
+	pi = 4 * low/itot;
+//	printf("%d",pi);
+	//cout(pi); //David Change
+      //printf("Pi = %9.6f ztot=%12.2f itot=%8d\n",pi,ztot,itot);
+
+      return 0;
+}
+
+
+///*void
+//myadd(float sum,float addend) {
+
+///*
+//c   Simple adding subroutine thrown in to allow subroutine
+//c   calls/returns to be factored in as part of the benchmark.
+//
+//      *sum = *sum + *addend;
+//}
+//*/

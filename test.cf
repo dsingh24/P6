@@ -1,0 +1,97 @@
+int x;
+int y;
+bool z; //bool y gave error
+
+struct dummy {
+    int st1;
+    bool st2;
+};
+
+struct dummy2 {
+    int var;
+};
+
+//This is a comment
+void f1() {}
+void f2() {}
+
+int func (int m, bool n) {
+    int a;
+    int b;
+    //void d;
+    bool d;
+    bool e;
+    int c;
+    struct dummy2 i_dummy;
+
+    i_dummy.var = 0;
+//    i_dummy.st3 = 0;
+    //a.st2 = 0;
+    a = m;
+    //b = -n;
+    //n = !a;  //working
+    //d = a + 2; e = a - b;
+    //d = a + e; //working
+    d = a > b;
+    c = a/b;
+    d = d && e;
+    //a = d || c; //working
+    a = b > c;
+    //d = b >= e; //working
+    a++;
+    //if (f1() == f2()) {} //working
+    //if (f1() == func(c,d)) {} //working
+
+//    cin >> i_dummy;
+    return a; 
+}
+#*This is a comment too
+
+void main() {
+    int x;
+    int y;
+    int a;
+    bool b;
+    //void c;
+    bool c;
+    struct dummy u_dummy;
+    struct dummy u2_dummy;
+    //x = !y; //working
+    y = x*2;
+    //x = func(c, d&&e, f); //working
+    x = func(a, b);
+    //y = x(); //working
+    if (x > 0) {
+        x = a > y;
+        if (u_dummy.st1 != 0) { //PROBLEM
+            a = x/y;
+    } else {}
+    }
+    //if (x) {} //working
+
+    //while (y != a+b) {
+    while(a != x+y) {
+    //func_test(y,a);
+    //b--;
+    }
+    //cout << u_dummy; //working
+    //cout << dummy; //this is being flagged as UV PROBLEM
+    //cin >> func; //working
+    //cout << func; //working
+    cout << func(a,b);
+    //cout << func(); //working
+    //cout << f1(); //working
+
+    b = x == y;
+    //b = c == x; //working
+    //cout << dummy + 1;
+    //a = (true + 3 +a)*4; //working
+    //if(true && (false || 3)) {}
+    //while(true && "hello") {}
+    //f("a"*4); //flagged as UV, we don't look inside
+    //y = "a" + a; //working
+    //func(2, "a"*4);
+
+    return b;
+}
+

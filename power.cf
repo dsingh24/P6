@@ -1,0 +1,16 @@
+int main(){
+
+int x;
+int n;
+int result;
+x=3;
+n=5000;
+result=x;
+
+while(n>1){
+result=result*x;
+n=n-1;
+}
+
+return result;
+}
