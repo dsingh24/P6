@@ -82,5 +82,6 @@ answer=answer + a14 * b14;
 answer=answer + a15 * b15;
 
 
+cout << answer;
 return answer;
 }

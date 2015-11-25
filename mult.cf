@@ -4,7 +4,7 @@ int main()
 int a;
 int b;
 int sum;
-a=2;
+a=9;
 b=3;
 sum=0;
 
@@ -14,5 +14,6 @@ a=a-1;
 
 }
 
+cout << sum;//27
 return sum;
 }

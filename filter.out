@@ -1012,7 +1012,7 @@ main:
 	subu  $sp, $sp, 4
 	lw    $t0, 4($sp)	#POP
 	addu  $sp, $sp, 4
-	li    $t0, 89
+	li    $t0, 40
 	sw    $t0, 0($sp)	#PUSH
 	subu  $sp, $sp, 4
 	la    $t0, -8($fp)
@@ -1027,7 +1027,7 @@ main:
 	subu  $sp, $sp, 4
 	lw    $t0, 4($sp)	#POP
 	addu  $sp, $sp, 4
-	li    $t0, 170
+	li    $t0, 121
 	sw    $t0, 0($sp)	#PUSH
 	subu  $sp, $sp, 4
 	la    $t0, -8($fp)
@@ -1042,7 +1042,7 @@ main:
 	subu  $sp, $sp, 4
 	lw    $t0, 4($sp)	#POP
 	addu  $sp, $sp, 4
-	li    $t0, 174
+	li    $t0, 125
 	sw    $t0, 0($sp)	#PUSH
 	subu  $sp, $sp, 4
 	la    $t0, -8($fp)
@@ -1057,7 +1057,7 @@ main:
 	subu  $sp, $sp, 4
 	lw    $t0, 4($sp)	#POP
 	addu  $sp, $sp, 4
-	li    $t0, 174
+	li    $t0, 125
 	sw    $t0, 0($sp)	#PUSH
 	subu  $sp, $sp, 4
 	la    $t0, -8($fp)
@@ -1072,7 +1072,7 @@ main:
 	subu  $sp, $sp, 4
 	lw    $t0, 4($sp)	#POP
 	addu  $sp, $sp, 4
-	li    $t0, 195
+	li    $t0, 125
 	sw    $t0, 0($sp)	#PUSH
 	subu  $sp, $sp, 4
 	la    $t0, -8($fp)
@@ -1087,7 +1087,7 @@ main:
 	subu  $sp, $sp, 4
 	lw    $t0, 4($sp)	#POP
 	addu  $sp, $sp, 4
-	li    $t0, 231
+	li    $t0, 161
 	sw    $t0, 0($sp)	#PUSH
 	subu  $sp, $sp, 4
 	la    $t0, -8($fp)
@@ -1102,7 +1102,7 @@ main:
 	subu  $sp, $sp, 4
 	lw    $t0, 4($sp)	#POP
 	addu  $sp, $sp, 4
-	li    $t0, 331
+	li    $t0, 261
 	sw    $t0, 0($sp)	#PUSH
 	subu  $sp, $sp, 4
 	la    $t0, -8($fp)
@@ -1117,7 +1117,7 @@ main:
 	subu  $sp, $sp, 4
 	lw    $t0, 4($sp)	#POP
 	addu  $sp, $sp, 4
-	li    $t0, 815
+	li    $t0, 745
 	sw    $t0, 0($sp)	#PUSH
 	subu  $sp, $sp, 4
 	la    $t0, -8($fp)
@@ -1132,7 +1132,7 @@ main:
 	subu  $sp, $sp, 4
 	lw    $t0, 4($sp)	#POP
 	addu  $sp, $sp, 4
-	li    $t0, 984
+	li    $t0, 914
 	sw    $t0, 0($sp)	#PUSH
 	subu  $sp, $sp, 4
 	la    $t0, -8($fp)
@@ -1147,7 +1147,7 @@ main:
 	subu  $sp, $sp, 4
 	lw    $t0, 4($sp)	#POP
 	addu  $sp, $sp, 4
-	li    $t0, 1033
+	li    $t0, 914
 	sw    $t0, 0($sp)	#PUSH
 	subu  $sp, $sp, 4
 	la    $t0, -8($fp)
@@ -1162,7 +1162,7 @@ main:
 	subu  $sp, $sp, 4
 	lw    $t0, 4($sp)	#POP
 	addu  $sp, $sp, 4
-	li    $t0, 3842
+	li    $t0, 3723
 	sw    $t0, 0($sp)	#PUSH
 	subu  $sp, $sp, 4
 	la    $t0, -8($fp)
@@ -1177,7 +1177,7 @@ main:
 	subu  $sp, $sp, 4
 	lw    $t0, 4($sp)	#POP
 	addu  $sp, $sp, 4
-	li    $t0, 3891
+	li    $t0, 3723
 	sw    $t0, 0($sp)	#PUSH
 	subu  $sp, $sp, 4
 	la    $t0, -8($fp)
@@ -1192,7 +1192,7 @@ main:
 	subu  $sp, $sp, 4
 	lw    $t0, 4($sp)	#POP
 	addu  $sp, $sp, 4
-	li    $t0, 4472
+	li    $t0, 3723
 	sw    $t0, 0($sp)	#PUSH
 	subu  $sp, $sp, 4
 	la    $t0, -8($fp)
@@ -1207,6 +1207,9 @@ main:
 	subu  $sp, $sp, 4
 	lw    $t0, 4($sp)	#POP
 	addu  $sp, $sp, 4
+	li    $a0, 3723
+	li    $v0, 1
+	syscall
 	lw    $t0, -8($fp)
 	sw    $t0, 0($sp)	#PUSH
 	subu  $sp, $sp, 4

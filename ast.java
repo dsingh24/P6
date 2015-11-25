@@ -373,9 +373,18 @@ class StmtListNode extends ASTnode {
         }
     }
     
-    public void partialEvaluate() {
+    public int partialEvaluate() {
         for(StmtNode node : myStmts) {
-            node.partialEvaluate();
+            if(node.partialEvaluate() == -1) { //TODO - verify functionality
+                listStatic = -1;
+            }
+        }
+        return listStatic;
+    }
+
+    public void setDynamic() {
+        for(StmtNode node : myStmts) {
+            node.setDynamic(); //TODO - verify functionality
         }
     }
     
@@ -394,6 +403,7 @@ class StmtListNode extends ASTnode {
 
     // list of kids (StmtNodes)
     private List<StmtNode> myStmts;
+    private int listStatic = 1;
 }
 
 class ExpListNode extends ASTnode {
@@ -1005,9 +1015,10 @@ class StructNode extends TypeNode {
 // **********************************************************************
 
 abstract class StmtNode extends ASTnode {
+    public void setDynamic() {};
     abstract public void nameAnalysis(SymTable symTab);
     abstract public void typeCheck(Type retType);
-    abstract public void partialEvaluate();
+    abstract public int partialEvaluate();
     abstract public void codeGen();
 }
 
@@ -1031,8 +1042,12 @@ class AssignStmtNode extends StmtNode {
         myAssign.typeCheck();
     }
         
-    public void partialEvaluate() {
-        myAssign.partialEvaluate();
+    public int partialEvaluate() {
+        return myAssign.partialEvaluate();
+    }
+
+    public void setDynamic() {
+        myAssign.setDynamic();
     }
 
     public void codeGen() {
@@ -1075,14 +1090,20 @@ class PostIncStmtNode extends StmtNode {
         }
     }
         
-    public void partialEvaluate() {
+    public int partialEvaluate() {
         valNode = myExp.partialEvaluate();
         if(valNode != -1) {
             myExp.storeVal(valNode);
             myExp.setStatic(1);
+            return 1;
         } else {
             myExp.setStatic(0);
+            return -1;
         }
+    }
+
+    public void setDynamic() {
+        myExp.setStatic(0);
     }
 
     public void codeGen() {
@@ -1138,14 +1159,20 @@ class PostDecStmtNode extends StmtNode {
         }
     }
         
-    public void partialEvaluate() {
+    public int partialEvaluate() {
         valNode = myExp.partialEvaluate();
         if(valNode != -1) {
             myExp.storeVal(valNode);
             myExp.setStatic(1);
+            return 1;
         } else {
             myExp.setStatic(0);
+            return -1;
         }
+    }
+
+    public void setDynamic() {
+        myExp.setStatic(0);
     }
 
     public void codeGen() {
@@ -1211,7 +1238,9 @@ class ReadStmtNode extends StmtNode {
         }
     }
     
-    public void partialEvaluate() {
+    public int partialEvaluate() {
+        myExp.setStatic(0);
+        return -1;
     }
 
     public void codeGen() {
@@ -1274,7 +1303,7 @@ class WriteStmtNode extends StmtNode {
         }
     }
 
-    public void partialEvaluate() {
+    public int partialEvaluate() {
         valNode = myExp.partialEvaluate();
         //if myExp is of type IdNode, it should work fine
         if(valNode != -1) {
@@ -1283,10 +1312,14 @@ class WriteStmtNode extends StmtNode {
         } else {
             myExp.setStatic(0);
         }
+        return 1; //since cout is not changing anything, assuming its always partially-evaluatable
+    }
+
+    public void setDynamic() {
+        myExp.setStatic(0);
     }
 
     public void codeGen() {
-        System.out.format("getStatic for valNode %d is = %d\n", valNode, myExp.getStatic());
         if (myExp.getStatic() != 1) { //EDIT
             myExp.codeGen();
             Codegen.genPop(Codegen.A0); 
@@ -1347,14 +1380,25 @@ class IfStmtNode extends StmtNode {
      /**
      * typeCheck
      */
-    public void partialEvaluate() {
+    public int partialEvaluate() {
         valNode = myExp.partialEvaluate();
-        if(valNode != -1) {
-            myExp.storeVal(valNode);
+        if(valNode == 1) {
+            //myExp.storeVal(valNode);
+            myStmtList.partialEvaluate();
+            myExp.setStatic(1);
+        } else if (valNode == 0) {
             myExp.setStatic(1);
         } else {
             myExp.setStatic(0);
         }
+        return 1;
+        //TODO - have to perform PE on all children first (to be able to say entire loop is evaluatable
+        //similar to while loop
+    }
+
+    public void setDynamic() {
+        myExp.setStatic(0);
+        myStmtList.setDynamic();
     }
 
     public void typeCheck(Type retType) {
@@ -1464,7 +1508,7 @@ class IfElseStmtNode extends StmtNode {
         myElseStmtList.typeCheck(retType);
     }
         
-    public void partialEvaluate() {
+    public int partialEvaluate() {
         valNode = myExp.partialEvaluate();
         if(valNode != -1) {
             myExp.storeVal(valNode);
@@ -1472,6 +1516,14 @@ class IfElseStmtNode extends StmtNode {
         } else {
             myExp.setStatic(0);
         }
+        return 1;
+        //TODO again
+    }
+
+    public void setDynamic() {
+        myExp.setStatic(0);
+        myThenStmtList.setDynamic();
+        myElseStmtList.setDynamic();
     }
 
     public void codeGen() {
@@ -1562,38 +1614,54 @@ class WhileStmtNode extends StmtNode {
                          "Non-bool expression used as a while condition");        
         }
         
-        myStmtList.typeCheck(retType);
-    }
+        myStmtList.typeCheck(retType);}
         
-    public void partialEvaluate() {
+    public int partialEvaluate() {
         valNode = myExp.partialEvaluate();
-        if(valNode != -1) {
-            myExp.storeVal(valNode);
-            myExp.setStatic(1);
-        } else {
-            myExp.setStatic(0);
+        initialVal = valNode;
+        while (valNode == 1) {
+            if(myStmtList.partialEvaluate() == -1)
+                loopStatic = -1;
+            else
+                loopStatic = 1;
+            valNode = myExp.partialEvaluate();
         }
+        if(loopStatic == -1) { //set all LHS IDs as dynamic so that codegen doesn't use PEd values
+            myExp.setDynamic();
+            myStmtList.setDynamic();
+        }
+        return 1;
+    }
+
+    public void setDynamic() {
+        myExp.setStatic(0);
+        myStmtList.setDynamic();
     }
 
     public void codeGen() {
-        if (myExp.getStatic() != 1) { //EDIT
+        if (loopStatic == 1) { //eliminate the loop and just write everything only once
+            if (initialVal == 1)
+                myStmtList.codeGen();
+        } else {
+            //if (myExp.getStatic() != 1) { //EDIT
+                myExp.codeGen();
+                Codegen.genPop(Codegen.T0);
+            //} else {
+            //    Codegen.generate("li", Codegen.T0, valNode);
+            //}
+            String startlabel = Codegen.nextLabel();
+            String endlabel = Codegen.nextLabel();
+            Codegen.generate("beq", Codegen.T0, Codegen.FALSE, endlabel);
+            //iteration start
+            Codegen.genLabel(startlabel);
+            myStmtList.codeGen();
+            //one iteration done, check again
             myExp.codeGen();
             Codegen.genPop(Codegen.T0);
-        } else {
-            Codegen.generate("li", Codegen.T0, valNode);
+            Codegen.generate("bne", Codegen.T0, Codegen.FALSE, startlabel);
+            //end
+            Codegen.genLabel(endlabel);
         }
-        String startlabel = Codegen.nextLabel();
-        String endlabel = Codegen.nextLabel();
-        Codegen.generate("beq", Codegen.T0, Codegen.FALSE, endlabel);
-        //iteration start
-        Codegen.genLabel(startlabel);
-        myStmtList.codeGen();
-        //one iteration done, check again
-        myExp.codeGen();
-        Codegen.genPop(Codegen.T0);
-        Codegen.generate("bne", Codegen.T0, Codegen.FALSE, startlabel);
-        //end
-        Codegen.genLabel(endlabel);
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -1612,7 +1680,9 @@ class WhileStmtNode extends StmtNode {
     private DeclListNode myDeclList;
     private StmtListNode myStmtList;
     //EDIT
-    private int valNode;
+    private int valNode = -1;
+    private int initialVal = -1;
+    private int loopStatic = -1;
 }
 
 class CallStmtNode extends StmtNode {
@@ -1635,7 +1705,9 @@ class CallStmtNode extends StmtNode {
         myCall.typeCheck();
     }
     
-    public void partialEvaluate() {
+    public int partialEvaluate() {
+        return -1;
+        //TODO - not worrying about this for now
         //TODO - perhaps the most important
     }
 
@@ -1696,7 +1768,9 @@ class ReturnStmtNode extends StmtNode {
         
     }
     
-    public void partialEvaluate() {
+    public int partialEvaluate() {
+        return -1;
+        //TODO
     }
 
     public void codeGen() {
@@ -1733,7 +1807,8 @@ abstract class ExpNode extends ASTnode {
     //EDIT
     public void storeVal(int val) {}
     public int getStatic() {return 0;}
-    public void setStatic(int val) {};
+    public void setStatic(int val) {}
+    public void setDynamic() {}
     
     abstract public Type typeCheck();
     //EDIT - what type should it have?
@@ -1741,9 +1816,6 @@ abstract class ExpNode extends ASTnode {
     abstract public void codeGen();
     abstract public int lineNum();
     abstract public int charNum();
-
-    //EDIT - is this allowed?
-    int is_static = 0;
 }
 
 class IntLitNode extends ExpNode {
@@ -2293,13 +2365,21 @@ class AssignNode extends ExpNode {
         if(valRhs != -1) {//TODO - unary operator return of -1
             myLhs.storeVal(valRhs);
             myLhs.setStatic(1);
+            return 1;
         } else {
             myLhs.setStatic(0);
+            return -1;
         }
-        return 0;
+    }
+
+    public void setDynamic() {
+        System.out.format("setDynamic called for AssignNode\n");
+        myLhs.setStatic(0);
+        myExp.setDynamic();
     }
 
     public void codeGen() {
+        //System.out.format("Static for lhs is %d\n", myLhs.getStatic());
         if (myLhs.getStatic() != 1) { //EDIT
             myExp.codeGen();
         } else {
@@ -2531,6 +2611,10 @@ class UnaryMinusNode extends UnaryExpNode {
         }
     }
 
+    public void setDynamic() {
+        valExp = -1;
+    }
+
     public void codeGen() {
         //No change is needed for PE here, because the partially evaluated value will already be propagated upwards
         //and this codegen will never be called if PE was successful
@@ -2582,6 +2666,10 @@ class NotNode extends UnaryExpNode {
         } else {
             return -1;
         }
+    }
+
+    public void setDynamic() {
+        valExp = -1;
     }
 
     public void codeGen() {
@@ -2808,6 +2896,11 @@ class PlusNode extends ArithmeticExpNode {
         }
     }
 
+    public void setDynamic() {
+        valExp1 = -1;
+        valExp2 = -1;
+    }
+
     public void codeGen() {
         if ((valExp1 == -1) && (valExp2 == -1)) {
             super.codeGen();
@@ -2850,6 +2943,11 @@ class MinusNode extends ArithmeticExpNode {
         } else {
             return -1;
         }
+    }
+
+    public void setDynamic() {
+        valExp1 = -1;
+        valExp2 = -1;
     }
 
     public void codeGen() {
@@ -2895,6 +2993,11 @@ class TimesNode extends ArithmeticExpNode {
         } else {
             return -1;
         }
+    }
+
+    public void setDynamic() {
+        valExp1 = -1;
+        valExp2 = -1;
     }
 
     public void codeGen() {
@@ -2944,6 +3047,11 @@ class DivideNode extends ArithmeticExpNode {
         }
     }
 
+    public void setDynamic() {
+        valExp1 = -1;
+        valExp2 = -1;
+    }
+
     public void codeGen() {
         if ((valExp1 == -1) && (valExp2 == -1)) {
             super.codeGen();
@@ -2989,6 +3097,11 @@ class AndNode extends LogicalExpNode {
         } else {
             return -1;
         }
+    }
+
+    public void setDynamic() {
+        valExp1 = -1;
+        valExp2 = -1;
     }
 
     public void codeGen() {
@@ -3064,6 +3177,11 @@ class OrNode extends LogicalExpNode {
         }
     }
 
+    public void setDynamic() {
+        valExp1 = -1;
+        valExp2 = -1;
+    }
+
     public void codeGen() {
         if ((valExp1 == -1) && (valExp2 == -1)) {
             String doneLabel = Codegen.nextLabel();
@@ -3135,6 +3253,11 @@ class EqualsNode extends EqualityExpNode {
         } else {
             return -1;
         }
+    }
+
+    public void setDynamic() {
+        valExp1 = -1;
+        valExp2 = -1;
     }
 
     public void codeGen() {
@@ -3232,6 +3355,11 @@ class NotEqualsNode extends EqualityExpNode {
         }
     }
 
+    public void setDynamic() {
+        valExp1 = -1;
+        valExp2 = -1;
+    }
+
     public void codeGen() {
         if ((valExp1 == -1) && (valExp2 == -1)) {
             String storeZeroLabel = Codegen.nextLabel();
@@ -3323,6 +3451,11 @@ class LessNode extends RelationalExpNode {
         } else {
             return -1;
         }
+    }
+
+    public void setDynamic() {
+        valExp1 = -1;
+        valExp2 = -1;
     }
 
      public void codeGen() {
@@ -3418,26 +3551,75 @@ class GreaterNode extends RelationalExpNode {
         }
     }
 
+    public void setDynamic() {
+        valExp1 = -1;
+        valExp2 = -1;
+    }
+
     public void codeGen() {
-        String storeZeroLabel = Codegen.nextLabel();
-        String storeOneLabel = Codegen.nextLabel();
-        String doneLabel = Codegen.nextLabel();
+       if ((valExp1 == -1) && (valExp2 == -1)) {
+            String storeZeroLabel = Codegen.nextLabel();
+            String storeOneLabel = Codegen.nextLabel();
+            String doneLabel = Codegen.nextLabel();
 
-        myExp1.codeGen();
-        myExp2.codeGen();
-        Codegen.genPop(Codegen.T1);
-        Codegen.genPop(Codegen.T0);
-        Codegen.generate("bgt", Codegen.T0, Codegen.T1, storeOneLabel);
+            myExp1.codeGen();
+            myExp2.codeGen();
+            Codegen.genPop(Codegen.T1);
+            Codegen.genPop(Codegen.T0);
+            Codegen.generate("bgt", Codegen.T0, Codegen.T1, storeOneLabel);
 
-        Codegen.genLabel(storeZeroLabel);
-        Codegen.generate("li", Codegen.T0, 0);
-        Codegen.generate("b", doneLabel);
+            Codegen.genLabel(storeZeroLabel);
+            Codegen.generate("li", Codegen.T0, 0);
+            Codegen.generate("b", doneLabel);
 
-        Codegen.genLabel(storeOneLabel);
-        Codegen.generate("li", Codegen.T0, 1);
+            Codegen.genLabel(storeOneLabel);
+            Codegen.generate("li", Codegen.T0, 1);
 
-        Codegen.genLabel(doneLabel);
-        Codegen.genPush(Codegen.T0);
+            Codegen.genLabel(doneLabel);
+            Codegen.genPush(Codegen.T0);
+        } else if ((valExp1 != -1) && (valExp2 == -1)) {
+            String storeZeroLabel = Codegen.nextLabel();
+            String storeOneLabel = Codegen.nextLabel();
+            String doneLabel = Codegen.nextLabel();
+
+            Codegen.generate("li", Codegen.T0, valExp1);
+            //myExp1.codeGen();
+            myExp2.codeGen();
+            Codegen.genPop(Codegen.T1);
+            //Codegen.genPop(Codegen.T0);
+            Codegen.generate("bgt", Codegen.T0, Codegen.T1, storeOneLabel);
+
+            Codegen.genLabel(storeZeroLabel);
+            Codegen.generate("li", Codegen.T0, 0);
+            Codegen.generate("b", doneLabel);
+
+            Codegen.genLabel(storeOneLabel);
+            Codegen.generate("li", Codegen.T0, 1);
+
+            Codegen.genLabel(doneLabel);
+            Codegen.genPush(Codegen.T0);
+        } else if ((valExp1 == -1) && (valExp2 != -1)) {
+            String storeZeroLabel = Codegen.nextLabel();
+            String storeOneLabel = Codegen.nextLabel();
+            String doneLabel = Codegen.nextLabel();
+
+            myExp1.codeGen();
+            Codegen.generate("li", Codegen.T1, valExp2);
+            //myExp2.codeGen();
+            //Codegen.genPop(Codegen.T1);
+            Codegen.genPop(Codegen.T0);
+            Codegen.generate("bgt", Codegen.T0, Codegen.T1, storeOneLabel);
+
+            Codegen.genLabel(storeZeroLabel);
+            Codegen.generate("li", Codegen.T0, 0);
+            Codegen.generate("b", doneLabel);
+
+            Codegen.genLabel(storeOneLabel);
+            Codegen.generate("li", Codegen.T0, 1);
+
+            Codegen.genLabel(doneLabel);
+            Codegen.genPush(Codegen.T0);
+        }
     }
 }
 
@@ -3465,6 +3647,11 @@ class LessEqNode extends RelationalExpNode {
         } else {
             return -1;
         }
+    }
+
+    public void setDynamic() {
+        valExp1 = -1;
+        valExp2 = -1;
     }
 
     public void codeGen() {
@@ -3558,6 +3745,11 @@ class GreaterEqNode extends RelationalExpNode {
         } else {
             return -1;
         }
+    }
+
+    public void setDynamic() {
+        valExp1 = -1;
+        valExp2 = -1;
     }
 
     public void codeGen() {

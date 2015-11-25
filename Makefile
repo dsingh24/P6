@@ -62,12 +62,8 @@ clean:
 test:
 	java -cp $(CP) P6 test.cf test.out
 
-test2:
-	java -cp $(CP) P6 test2.cf test2.out
-
-testout:
-	java -cp $(CP) P6 test.out test.out2
-
+test_dummy:
+	java -cp $(CP) P6 test_dummy.c test_dummy.out
 
 dotproduct:
 	java -cp $(CP) P6 dotproduct.cf dotproduct.out
@@ -86,5 +82,6 @@ float_bench:
 
 mult:
 	java -cp $(CP) P6 mult.cf mult.out
+
 power:
 	java -cp $(CP) P6 power.cf power.out

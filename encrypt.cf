@@ -4,20 +4,20 @@ int main(){
 int answer;
 int initial;
 int i;
+int j;
 answer=0;
-initial=2837492;
+initial=2000;
 answer=initial;
-i=168236234;
+i=3;
 
-while (i>0){
-
-answer=(answer +284 ) / (7) * (i+2);
-i=i-1;
-
-
+cin >> j;
+while (i>0){ 
+//answer = answer + j;
+answer=(answer +2 ) / (3) * (i+2); 
+i=i-1;                             
 }
 
-
-
 cout << answer;
+cout << "\n";
+
 }

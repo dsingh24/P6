@@ -1,0 +1,2 @@
+{'jump': 1, 'sub': 39, 'mem_store': 43, 'add': 38, 'load_indirect': 15, 'load_addr': 6, 'mem_load': 44} //answer - 305189751
+{'jump': 1, 'sub': 27, 'mem_store': 32, 'add': 25, 'load_indirect': 15, 'load_addr': 6, 'mem_load': 28}

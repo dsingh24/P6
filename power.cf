@@ -12,5 +12,6 @@ result=result*x;
 n=n-1;
 }
 
+cout << result;//565473185
 return result;
 }

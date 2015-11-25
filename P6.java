@@ -21,6 +21,8 @@ public class P6 {
 	public static final int RESULT_SYNTAX_ERROR = 1;
 	public static final int RESULT_TYPE_ERROR = 2;
 	public static final int RESULT_OTHER_ERROR = -1;
+        //public static final boolean PE = false;
+        public static final boolean PE = true;
 
 	/**
 	 * P6 constructor for client programs and testers. Note that
@@ -148,7 +150,8 @@ public class P6 {
 		
 		astRoot.typeCheck();
 
-                astRoot.partialEvaluate();
+                if(PE)
+                    astRoot.partialEvaluate();
 
                 astRoot.codeGen();
                 //Codegen.p.close();

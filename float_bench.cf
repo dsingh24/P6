@@ -81,6 +81,7 @@ int iprod;
 	//cout(pi); //David Change
       //printf("Pi = %9.6f ztot=%12.2f itot=%8d\n",pi,ztot,itot);
 
+    cout <<  ztot;
       return 0;
 }
 

@@ -1,9 +1,12 @@
 #! usr/bin/python
 
-import re
+import argparse
 
 def main():
-    inst = {'mem_store':0,
+    parser = argparse.ArgumentParser(description='Process some integers.')
+    parser.add_argument('-infile')
+    args = parser.parse_args()
+    instr = {'mem_store':0,
             'mem_load':0,
             'load_addr':0,
             'load_indirect':0,
@@ -11,24 +14,27 @@ def main():
             'add':0,
             'jump':0
             }
-    file = open('test_dummy.out', 'r')
+    file = open(args.infile, 'r')
     for line in file:
-        if (re.search('sw', line) != None):
-            inst['mem_store'] = inst['mem_store'] + 1
-        elif (re.search('lw', line) != None):
-            inst['mem_load'] = inst['mem_load'] + 1
-        elif (re.search('la', line) != None):
-            inst['load_addr'] = inst['load_addr'] + 1
-        elif (re.search('li', line) != None):
-            inst['load_indirect'] = inst['load_indirect'] + 1
-        elif (re.search('sub', line) != None):
-            inst['sub'] = inst['sub'] + 1
-        elif (re.search('add', line) != None):
-            inst['add'] = inst['add'] + 1
-        elif (re.search('bne' or 'beq' or 'bgt' or 'bge' or 'blt' or 'ble' or 'jal' or ' b ', line) != None):
-            inst['jump'] = inst['jump'] + 1
+        if line.find('sw') != -1:
+            instr['mem_store'] = instr['mem_store'] + 1
+        elif line.find('lw') != -1:
+            instr['mem_load'] = instr['mem_load'] + 1
+        elif line.find('la') != -1:
+            instr['load_addr'] = instr['load_addr'] + 1
+        elif line.find('li') != -1:
+            instr['load_indirect'] = instr['load_indirect'] + 1
+        elif line.find('sub') != -1:
+            instr['sub'] = instr['sub'] + 1
+        elif line.find('add') != -1:
+            instr['add'] = instr['add'] + 1
+        elif line.find('bne') != -1 or line.find('beq') != -1 or \
+             line.find('glt') != -1 or line.find('bge') != -1 or \
+             line.find('blt') != -1 or line.find('ble') != -1 or \
+             line.find('jal') != -1 or line.find('b') != -1:
+            instr['jump'] = instr['jump'] + 1
 
-    print inst
+    print instr
 
 if __name__ == '__main__':
     main()

@@ -6,7 +6,7 @@ int sum;
 int n;
 value1=0;
 value2=1;
-n=500000000;
+n=15;
 sum=1;
 
 while(n>0){
@@ -17,5 +17,6 @@ n=n-1;
 
 }
 
-return value2;
+cout << value2;
+return value2; //987
 }
