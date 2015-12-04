@@ -1,0 +1,42 @@
+Things to test
+1) Code size (static inst count)
+2) Dynamic code size (dynamic instr count)
+3) Execution time (estimate)
+4) Memory operations
+
+Static:
+Mult: 90 vs
+Dotproduct:713
+encrypt:
+fibinacci:
+filter:
+float_bench:
+power:
+
+
+With
+
+Mult: 90 ---> 2.94 sec
+DotProduct: estimate: 720 inst = 23.47 sec -- about 670-680 actually
+encrypt ---> 4.16 sec
+fibinacci ---> 4.7 sec
+filter: 25.16 sec
+float_bench: 35.3 sec
+power:3.14 sec
+
+
+Without:
+mult: 23.14 sec
+dotproduct: 34.04
+encrypt: 14.41
+fibinacci: 52.04
+filter: 55.67
+float_bench: 10+ minutes
+
+ 
+
+
+
+
+
+
