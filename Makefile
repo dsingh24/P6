@@ -55,15 +55,23 @@ EmptySymTableException.class: EmptySymTableException.java
 
 ###
 # clean
-###
+##
+
+#
+#
+all: dotproduct encrypt fibinacci filter float_bench mult power var5 var4 var3 var2 var1 var0
 clean:
 	rm -f *~ *.class parser.java CMM.jlex.java sym.java
 
 test:
 	java -cp $(CP) P6 test.cf test.out
 
-test_dummy:
-	java -cp $(CP) P6 test_dummy.c test_dummy.out
+test2:
+	java -cp $(CP) P6 test2.cf test2.out
+
+testout:
+	java -cp $(CP) P6 test.out test.out2
+
 
 dotproduct:
 	java -cp $(CP) P6 dotproduct.cf dotproduct.out
@@ -82,6 +90,17 @@ float_bench:
 
 mult:
 	java -cp $(CP) P6 mult.cf mult.out
-
 power:
 	java -cp $(CP) P6 power.cf power.out
+var5:
+	java -cp $(CP) P6 var5.cf var5.out
+var4:
+	java -cp $(CP) P6 var4.cf var4.out
+var3:
+	java -cp $(CP) P6 var3.cf var3.out
+var2:
+	java -cp $(CP) P6 var2.cf var2.out
+var1:
+	java -cp $(CP) P6 var1.cf var1.out
+var0:
+	java -cp $(CP) P6 var0.cf var0.out
