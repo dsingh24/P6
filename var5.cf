@@ -1,0 +1,30 @@
+int main()
+{
+int a;
+int b;
+int c;
+int d;
+int e;
+int sum;
+
+sum=0;
+
+cin >> a;
+cin >> b;
+cin >> c;
+cin >> d;
+cin >> e;
+
+while (e>0){
+sum=a+b;
+sum=sum+d;
+sum=sum/b;
+sum=sum+(c+e)*b;
+sum=sum-(c*a-d);
+
+e=e-1;
+}
+
+cout << sum;
+return sum;
+}
